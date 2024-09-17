@@ -1,0 +1,43 @@
+# 自定义规则
+**/*.log
+**/*.zip
+**/*.ico
+**/*.jpg
+**/*.jpeg
+**/*.png
+**/*.zip
+**/*.ssk
+
+# Ignore all .vs folders in the project.
+**/.vs/
+**/.vscode/
+
+#  Build results
+**/[Bb]in/
+**/[Oo]bj/
+**/[Dd]ebug/
+**/[Dd]ebugPublic/
+**/[Rr]elease/
+**/[Rr]eleases/
+**/x64/
+**/x86/
+**/[Ww][Ii][Nn]32/
+**/[Aa][Rr][Mm]/
+**/[Aa][Rr][Mm]64/
+**/[Bb]in/
+**/[Oo]bj/
+**/[Ll]og/
+**/[Ll]ogs/
+**/bld/
+
+# User-specific files (Visual Studio temporary files)
+**/*.rsuser
+**/*.suo
+**/*.user
+**/*.userosscache
+**/*.sln.docstates
+
+# NuGet Packages
+**/*.nupkg
+**/[Pp]ackages/*
+!**/[pp]ackages/build/

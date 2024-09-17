@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="checkIdorpwd" xml:space="preserve">
+    <value>Please check if the account password is correct</value>
+    <comment>请检查账号密码是否正确</comment>
+  </data>
+  <data name="comboBox2.Items" xml:space="preserve">
+    <value>password</value>
+    <comment>密码登录</comment>
+  </data>
+  <data name="comboBox2.Items1" xml:space="preserve">
+    <value>swipe</value>
+    <comment>刷卡登录</comment>
+  </data>
+  <data name="inputTip" xml:space="preserve">
+    <value>Please enter your account and password</value>
+    <comment>请输入账号和密码</comment>
+  </data>
+  <data name="loginMode" xml:space="preserve">
+    <value>on line</value>
+    <comment>在线</comment>
+  </data>
+  <data name="loginMode1" xml:space="preserve">
+    <value>off line</value>
+    <comment>离线</comment>
+  </data>
+  <data name="ModeTip" xml:space="preserve">
+    <value>Please select login mode</value>
+    <comment>请选择登录模式</comment>
+  </data>
+  <data name="loginType" xml:space="preserve">
+    <value>Status display: The current employee card does not have swipe login permission!</value>
+    <comment>状态显示：当前员工卡无刷卡登录权限！</comment>
+  </data>
+  <data name="portNG" xml:space="preserve">
+    <value>Status display: Port opening failed!</value>
+    <comment>端口打开失败</comment>
+  </data>
+  <data name="portOK" xml:space="preserve">
+    <value>Status display: Port opened successfully!</value>
+    <comment>端口打开成功</comment>
+  </data>
+  <data name="portType" xml:space="preserve">
+    <value>Status display: Port occupied!</value>
+    <comment>端口被占用</comment>
+  </data>
+  <data name="posType" xml:space="preserve">
+    <value>Card reader port and device number acquisition failed, please maintain first!</value>
+    <comment>读卡器端口、设备号获取失败、请先维护！</comment>
+  </data>
+  <data name="readCardOK" xml:space="preserve">
+    <value>Status display: Card reading successful!</value>
+    <comment>读卡成功</comment>
+  </data>
+  <data name="serchType" xml:space="preserve">
+    <value>The current card number has multiple accounts and cannot be swiped to log in!</value>
+    <comment>当前卡号存在多个账户、不能刷卡登录！</comment>
+  </data>
+  <data name="Logintype1" xml:space="preserve">
+    <value>Password</value>
+    <comment>密码</comment>
+  </data>
+  <data name="Logintype2" xml:space="preserve">
+    <value>Swipe card</value>
+    <comment>刷卡</comment>
+  </data>
+  <data name="barCode_NG" xml:space="preserve">
+    <value>Barcode verification failed</value>
+    <comment>条码校验失败</comment>
+  </data>
+  <data name="barCode_OK" xml:space="preserve">
+    <value>Barcode verification passed</value>
+    <comment>条码校验通过</comment>
+  </data>
+  <data name="barCode_repeat" xml:space="preserve">
+    <value>Barcode scanned repeatedly</value>
+    <comment>条码重复扫过</comment>
+  </data>
+  <data name="barCode_State" xml:space="preserve">
+    <value>No barcode collected</value>
+    <comment>未获取到条码，请重新扫描！</comment>
+  </data>
+  <data name="begin_read_data" xml:space="preserve">
+    <value>Start reading data</value>
+    <comment>开始读取数据</comment>
+  </data>
+  <data name="Check_param" xml:space="preserve">
+    <value>Please check the online parameters</value>
+    <comment>请检查联机参数</comment>
+  </data>
+  <data name="Continue_production" xml:space="preserve">
+    <value>Please continue production</value>
+    <comment>请继续生产</comment>
+  </data>
+  <data name="Fixture_NG" xml:space="preserve">
+    <value>Fixture verification failed</value>
+    <comment>工装治具验证失败</comment>
+  </data>
+  <data name="Fixture_OK" xml:space="preserve">
+    <value>Fixture verification successful</value>
+    <comment>工装治具验证成功</comment>
+  </data>
+  <data name="label_Value" xml:space="preserve">
+    <value>Standby</value>
+    <comment>待机</comment>
+  </data>
+  <data name="material_NG" xml:space="preserve">
+    <value>Material verification failed</value>
+    <comment>物料校验失败</comment>
+  </data>
+  <data name="material_OK" xml:space="preserve">
+    <value>Material verification passed</value>
+    <comment>物料校验通过</comment>
+  </data>
+  <data name="Mes_upload" xml:space="preserve">
+    <value>Uploading data to MES</value>
+    <comment>数据上传中</comment>
+  </data>
+  <data name="Mes_upload_NG" xml:space="preserve">
+    <value>Data upload failed</value>
+    <comment>数据上传失败</comment>
+  </data>
+  <data name="Mes_upload_OK" xml:space="preserve">
+    <value>Data upload successful</value>
+    <comment>数据上传成功</comment>
+  </data>
+  <data name="onlineUser_NG" xml:space="preserve">
+    <value>User verification failed</value>
+    <comment>联机用户验证失败</comment>
+  </data>
+  <data name="onlineUser_OK" xml:space="preserve">
+    <value>User verification successful</value>
+    <comment>联机用户验证成功</comment>
+  </data>
+  <data name="plcConn" xml:space="preserve">
+    <value>Device connection failed, please restart the software or restart the machine!</value>
+    <comment>设备连接失败，请重启软件或重启机台！</comment>
+  </data>
+  <data name="Read_data" xml:space="preserve">
+    <value>Local data protection</value>
+    <comment>本地数据保中</comment>
+  </data>
+  <data name="Read_data_OK" xml:space="preserve">
+    <value>Local data protection successful</value>
+    <comment>本地数据保存完成</comment>
+  </data>
+  <data name="Re_upload" xml:space="preserve">
+    <value>Please upload again</value>
+    <comment>重新上传</comment>
+  </data>
+  <data name="ScanBarCode_OK" xml:space="preserve">
+    <value>Scan completed</value>
+    <comment>扫码完成</comment>
+  </data>
+  <data name="scanning" xml:space="preserve">
+    <value>Wait for scanning code</value>
+    <comment>等待扫描条码</comment>
+  </data>
+  <data name="UserCheck" xml:space="preserve">
+    <value>Single user verification successful</value>
+    <comment>单机用户验证成功</comment>
+  </data>
+  <data name="user_yzz" xml:space="preserve">
+    <value>User verification in progress</value>
+    <comment>用户验证中</comment>
+  </data>
+  <data name="Wait" xml:space="preserve">
+    <value>please stand by</value>
+    <comment>请等待</comment>
+  </data>
+  <data name="Wait_scan_Jig" xml:space="preserve">
+    <value>Please scan the fixture</value>
+    <comment>请扫描治具</comment>
+  </data>
+  <data name="readCard_Close" xml:space="preserve">
+    <value>Close the card reader</value>
+    <comment>关闭读卡器</comment>
+  </data>
+  <data name="readCard_Open" xml:space="preserve">
+    <value>Open the card reader</value>
+    <comment>打开读卡器</comment>
+  </data>
+  <data name="offlineTip" xml:space="preserve">
+    <value>You do not have offline login permission, please select again!</value>
+    <comment>您没有离线登录权限、请重新选择！</comment>
+  </data>
+  <data name="InputBox" xml:space="preserve">
+    <value>Please enter the production work order number:</value>
+    <comment>请输入生产工单号</comment>
+  </data>
+  <data name="InputBox1" xml:space="preserve">
+    <value>time Not inputted (Reminder: Exit the system without entering 3 times)</value>
+    <comment>次未输入(提示：3次未输入退出系统)</comment>
+  </data>
+  <data name="InputBoxName" xml:space="preserve">
+    <value>Production work order</value>
+    <comment>生产工单号</comment>
+  </data>
+  <data name="barCode_NG_MES" xml:space="preserve">
+    <value>MES barcode verification failed</value>
+    <comment>MES条码失败</comment>
+  </data>
+</root>
