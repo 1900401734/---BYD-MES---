@@ -361,7 +361,7 @@ namespace MesDatas
             if (OffLineType == 0)
             {
                 //进行用户登录验证
-                Button8_Click(null, null);
+                VarifyUserLogin_MES(null, null);
             }
             else
             {
@@ -385,7 +385,7 @@ namespace MesDatas
                 workstNamelist = CodeNum.WorkIDName(sequenceNum, stationName);
             }
 
-            richTextBox4.Clear();
+            rtbProductLog.Clear();
             UTYPE.SelectedIndex = 0;
             //判断是否超级管理员、增加定时器
             if (Access == 3)
@@ -409,20 +409,20 @@ namespace MesDatas
             }
             if (OffLineType == 1)
             {
-                textBox6.Text = "111111111111";
+                txtWorkOrder.Text = "111111111111";
             }
             else
             {
-                textBox6.Text = Interaction.InputBox(resources.GetString("InputBox"), resources.GetString("InputBoxName"), "", 100, 100);
+                txtWorkOrder.Text = Interaction.InputBox(resources.GetString("InputBox"), resources.GetString("InputBoxName"), "", 100, 100);
                 for (int i = 1; i <= 5; i++)
                 {
-                    if (string.IsNullOrWhiteSpace(textBox6.Text))
+                    if (string.IsNullOrWhiteSpace(txtWorkOrder.Text))
                     {
                         if (i == 4)
                         {
                             Form1_FormClosed(null, null);
                         }
-                        textBox6.Text = Interaction.InputBox(resources.GetString("InputBox") + i + resources.GetString("InputBox1"), resources.GetString("InputBoxName"), "", 100, 100);
+                        txtWorkOrder.Text = Interaction.InputBox(resources.GetString("InputBox") + i + resources.GetString("InputBox1"), resources.GetString("InputBoxName"), "", 100, 100);
                     }
                     else
                     {
@@ -490,7 +490,7 @@ namespace MesDatas
                     if (!checkBoxStates.ContainsKey(cbx))
                     {
                         checkBoxStates[cbx] = cbx.Checked;
-                        checkBox1.CheckedChanged += CheckBox_CheckedChanged;    // 勾选绑定工单
+                        chkBindOrder.CheckedChanged += CheckBox_CheckedChanged;    // 勾选绑定工单
                         checkBox2.CheckedChanged += CheckBox_CheckedChanged;    // 读取PLC
                         checkBox3.CheckedChanged += CheckBox_CheckedChanged;    // 使用文字
                         checkBox4.CheckedChanged += CheckBox_CheckedChanged;    // 读取PLC型号
@@ -786,7 +786,7 @@ namespace MesDatas
             {
                 this.Invoke(new Action(() =>
                 {
-                    if (plcConn == true)
+                    if (isPlcConn == true)
                     {
                         lblPlcStatus.ForeColor = G;
                         //  label115.Text = "PLC状态：已连接";
@@ -1060,15 +1060,15 @@ namespace MesDatas
         {
             this.Invoke(new Action(() =>
             {
-                if (richTextBox4.TextLength > 50000)
+                if (rtbProductLog.TextLength > 50000)
                 {
-                    richTextBox4.Clear();
+                    rtbProductLog.Clear();
                 }
 
-                richTextBox4.AppendText(DateTime.Now.Hour.ToString() +
+                rtbProductLog.AppendText(DateTime.Now.Hour.ToString() +
                     DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + "_" +
                     DateTime.Now.Millisecond.ToString() + ":" + msg + "\r\n");
-                richTextBox4.ScrollToCaret();
+                rtbProductLog.ScrollToCaret();
                 // SaveCSVlog(msg);
                 logger1Production.Trace(msg);
             }));
@@ -1547,12 +1547,6 @@ namespace MesDatas
             工艺部信息化组.CONFIG.NcCode = ncCode;
         }
 
-
-        public void UsersVarify(out bool 验证结果, out string MES反馈, out string XMLOUT)
-        {
-            BydMesCom.用户验证(out 验证结果, out MES反馈, out XMLOUT);
-        }
-
         public void BarCodeVarify(string 产品条码, out bool 验证结果, out string MES反馈, out string XMLOUT)
         {
             BydMesCom.条码验证(产品条码, out 验证结果, out MES反馈, out XMLOUT);
@@ -1573,41 +1567,42 @@ namespace MesDatas
         /// <summary>
         /// 用户登录验证
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button8_Click(object sender, EventArgs e)
+        private void VarifyUserLogin_MES(object sender, EventArgs e)
         {
-            lblRunningStatus.Text = resources.GetString("user_yzz");
-            lblActionTips.Text = resources.GetString("Wait");
+            lblRunningStatus.Text = resources.GetString("user_yzz");    // 用户验证中
+            lblActionTips.Text = resources.GetString("Wait");           // 请等待
+
             Config_Mes(ip, port, timeout, url, site, user, password, resource, operation, nccode);
+
             bool 验证结果;
             string MES反馈;
             string XMLOUT;
-            UsersVarify(out 验证结果, out MES反馈, out XMLOUT);
+            BydMesCom.用户验证(out 验证结果, out MES反馈, out XMLOUT);
+
             if (验证结果 == true)
             {
                 if (MES反馈 != null)
                 {
-                    richTextBox1.Clear();
-                    richTextBox1.AppendText(MES反馈);
+                    rtbMesLog.Clear();
+                    rtbMesLog.AppendText(MES反馈);
                     lblRunningStatus.ForeColor = G;
-                    lblRunningStatus.Text = resources.GetString("onlineUser_OK");
-                    lblActionTips.Text = resources.GetString("scanning");
+                    lblRunningStatus.Text = resources.GetString("onlineUser_OK");   // 联机用户验证失败
+                    lblActionTips.Text = resources.GetString("scanning");           // 等待扫描条码
                     loginCheck = true;
                 }
                 else
                 {
-                    richTextBox1.Clear();
-                    richTextBox1.AppendText(MES反馈);
+                    rtbMesLog.Clear();
+                    rtbMesLog.AppendText(MES反馈);
                     lblRunningStatus.ForeColor = R;
-                    lblRunningStatus.Text = resources.GetString("onlineUser_NG");
-                    lblActionTips.Text = resources.GetString("Check_param");
+                    lblRunningStatus.Text = resources.GetString("onlineUser_NG");   // 联机用户验证失败
+                    lblActionTips.Text = resources.GetString("Check_param");        // 请检查联机参数
                 }
             }
             else
             {
-                richTextBox1.Clear();
-                richTextBox1.AppendText(MES反馈);
+                rtbMesLog.Clear();
+                rtbMesLog.AppendText(MES反馈);
                 lblRunningStatus.ForeColor = R;
                 lblRunningStatus.Text = resources.GetString("onlineUser_NG");
                 lblActionTips.Text = resources.GetString("Check_param");
@@ -1625,18 +1620,23 @@ namespace MesDatas
         {
             Parameter_txt[2002] = "0";
             Parameter_txt[2004] = "0";
+
             string 产品条码 = barcodeInfo;
             bool 验证结果;
             string MES反馈;
             string XMLOUT; ;
             BarCodeVarify(产品条码, out 验证结果, out MES反馈, out XMLOUT);
-            richTextBox1.Clear();
-            richTextBox1.AppendText(MES反馈);
+
+            rtbMesLog.Clear();
+            rtbMesLog.AppendText(MES反馈);
             loggerMESBarCoode.Trace(MES反馈);
-            richTextBox1.SelectionStart = richTextBox1.Text.Length;
-            richTextBox1.ScrollToCaret();
+            rtbMesLog.SelectionStart = rtbMesLog.Text.Length;
+            rtbMesLog.ScrollToCaret();
+
             if (验证结果 == true)
-            { Parameter_txt[2002] = "1"; }
+            {
+                Parameter_txt[2002] = "1";
+            }
             else
             {
                 Parameter_txt[2004] = "1";
@@ -1712,8 +1712,8 @@ namespace MesDatas
             //!测试项,测试参数,测试值!用户ID,YC,YC!测试人,测试时间,测试结果!YC,2023年8月2日19：1：3,OK!工装,工装代码,41!产品编码,产品名称,产品代码!1144_00,SA3F_5820120,0SF5!生产节拍,文件版本,软件版本!5,20220811,20220811
             bool 验证结果; string MES反馈; string XMLOUT;
             UpDateToMes(测试结果, 产品条码, 文件版本, 软件版本, 测试项, out 验证结果, out MES反馈, out XMLOUT);
-            richTextBox1.Clear();
-            richTextBox1.AppendText(MES反馈);
+            rtbMesLog.Clear();
+            rtbMesLog.AppendText(MES反馈);
             loggerMESData.Trace(MES反馈);
             //richTextBox2.AppendText(测试项);
             if (验证结果 == true)
@@ -1736,7 +1736,7 @@ namespace MesDatas
 
         //private static ModbusTcpNet KeyenceMcNet;
         private static KeyenceMcNet KeyenceMcNet;
-        private bool plcConn = false;
+        private bool isPlcConn = false;
 
         private void TCP_Connect(object sender, EventArgs e)
         {
@@ -1749,12 +1749,12 @@ namespace MesDatas
                 OperateResult connect = KeyenceMcNet.ConnectServer();
                 if (connect.IsSuccess)
                 {
-                    plcConn = true;
+                    isPlcConn = true;
                     //MessageBox.Show("PLC连接成功");
                 }
                 else
                 {
-                    plcConn = false;
+                    isPlcConn = false;
                     MessageBox.Show(resources.GetString("plcConn"));
                 }
             }
@@ -1853,7 +1853,7 @@ namespace MesDatas
                 dr[4] = textBox3.Text;
                 // dr[5] = textBox4.Text;
                 // dr[6] = textBox5.Text;
-                dr[7] = textBox6.Text;
+                dr[7] = txtWorkOrder.Text;
                 mdb.DatatableToMdb("SytemSet", dt);
             }
 
@@ -1878,7 +1878,7 @@ namespace MesDatas
                     textBox3.Text = table1.Rows[i]["DeviceName"].ToString();
                     // textBox4.Text = userCollection.Rows[i]["stationCode"].ToString();
                     //textBox5.Text = userCollection.Rows[i]["stationName"].ToString();
-                    textBox6.Text = table1.Rows[i]["wordNo"].ToString();
+                    txtWorkOrder.Text = table1.Rows[i]["wordNo"].ToString();
                     //  textBox22.Text = userCollection.Rows[i]["BoardMaxCode"].ToString();//大限度
                     //  textBox23.Text = userCollection.Rows[i]["BoardMinCode"].ToString();//小限度
                     string device = table1.Rows[i]["Workstname"].ToString();
@@ -1936,7 +1936,7 @@ namespace MesDatas
 
         private void GetPLCMaxMin()
         {
-            if (plcConn == true)
+            if (isPlcConn == true)
             {
                 maxMinValues = new List<MaxMinValue>();
                 for (int i = 0; i < boardTable.Rows.Count; i++)
@@ -1977,7 +1977,7 @@ namespace MesDatas
         {
             BeginInvoke(new Action(() =>
             {
-                if (plcConn == true)
+                if (isPlcConn == true)
                 {
                     try
                     {
@@ -2150,7 +2150,7 @@ namespace MesDatas
             {
                 while (true)
                 {
-                    if (plcConn == true)
+                    if (isPlcConn == true)
                     {
                         try
                         {
@@ -2984,7 +2984,7 @@ namespace MesDatas
                 string barcode = barcodeData == "" ? " " : barcodeData;
                 StringBuilder str1 = new StringBuilder();
                 str1.Append("'" + CP + "',");
-                str1.Append("'" + textBox6.Text + "',");
+                str1.Append("'" + txtWorkOrder.Text + "',");
                 str1.Append("'" + textBox41.Text + "',");
                 str1.Append("'" + CodeNum.CodeStrfror(comboBox2.Text, codesDataM) + "',");
                 str1.Append("'" + barcode + "',");
@@ -3230,14 +3230,13 @@ namespace MesDatas
         }
 
         /// <summary>
-        /// ///读取条码
+        /// 读取条码
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Button19_Click(object sender, EventArgs e)
         {
-
-            if (plcConn == true)
+            if (isPlcConn == true)
             {
                 var Read_data = KeyenceMcNet.ReadInt32("D1000").Content;      // 读取寄存器int值 
 
@@ -3266,6 +3265,7 @@ namespace MesDatas
                             lblScanBarcodeSatus.ForeColor = R;
                             txtShowBarcode.Text = resources.GetString("barCode_State"); // 未获取到条码，请重新扫描！
                             LogMsg("未获取到条码！");
+
                             try
                             {
                                 KeyenceMcNet.Write("D1005", 1);
@@ -3417,7 +3417,7 @@ namespace MesDatas
                             }
                         }
 
-                        //条码规则验证();
+                        // 条码规则验证();
                         if (OffLineType == 1)
                         {
                             lblScanBarcodeSatus.ForeColor = G;
@@ -3433,13 +3433,15 @@ namespace MesDatas
                         }
                         else
                         {
-                            if (checkBox1.Checked == true)
+                            // 勾选绑定工单
+                            if (chkBindOrder.Checked == true)
                             {
-                                工单号 = textBox6.Text;
+                                工单号 = txtWorkOrder.Text;
                                 绑定工单(null, null);
-                                //textBox6.Text = 工单号;
                             }
-                            Button9_Click(null, null);//code条码验证
+
+                            Button9_Click(null, null);
+
                             if (Parameter_txt[2002] == "1")
                             {
 
@@ -3464,18 +3466,20 @@ namespace MesDatas
                                     KeyenceMcNet.Write("D1005", 1);
                                 }
                                 catch (Exception ex)
-                                { LogMsg(ex.ToString()); }
+                                {
+                                    LogMsg(ex.ToString());
+                                }
                                 LogMsg("反馈条码验证【D1005】 = 1");
                             }
                             Thread.Sleep(200);
                             Application.DoEvents();
                         }
 
-                        // busTcpClient.Write("2000", Convert.ToInt16(0));
                         LogMsg("条码读取完成.........");
                         lblActionTips.Text = resources.GetString("ScanBarCode_OK");
                     }));
                 }
+
                 if (Read_data == 2)
                 {
                     Invoke(new Action(() =>
@@ -3555,7 +3559,7 @@ namespace MesDatas
             Console.WriteLine("Button20 Start");
             //D1820:I-0
             // int Read_data = busTcpClient.ReadInt16("2010").Content;  // 读取寄存器int值 
-            if (plcConn == true)
+            if (isPlcConn == true)
             {
                 //是否可读 1=可读
                 var short_D100 = KeyenceMcNet.ReadInt32("D1200").Content;
@@ -3819,7 +3823,6 @@ namespace MesDatas
             Console.WriteLine($"总耗时：{sw.Elapsed.TotalSeconds:F2}秒");
         }
 
-        //static Stopwatch stopwatch = new Stopwatch();
         private static string PLCCodeNum(string plccode)
         {
             // stopwatch.Start();
@@ -4074,12 +4077,7 @@ namespace MesDatas
         {
             SaveParameter_MES();
             LoadParameter_MES();
-            Button8_Click(null, null);
-        }
-
-        private void Button17_Click(object sender, EventArgs e)
-        {
-            //条码规则验证();
+            VarifyUserLogin_MES(null, null);
         }
 
         /// <summary>
@@ -4163,7 +4161,7 @@ namespace MesDatas
             DataTable table1 = mdb.Find("select * from SytemSet where ID = '1'");
             if (table1.Rows.Count > 0)
             {
-                string sql = "update [SytemSet] set [wordNo]='" + textBox6.Text + "' where [ID] = '1'";
+                string sql = "update [SytemSet] set [wordNo]='" + txtWorkOrder.Text + "' where [ID] = '1'";
                 var result = mdb.Change(sql);
                 if (result == true)
                 {
@@ -5204,7 +5202,7 @@ namespace MesDatas
                 //3+机台名称+工单号+工单数量+完成数量+
                 //完成率+合格率+整体节拍+生产产品数量（总数）
                 //+ 工序时间+利用时间+负荷时间+直通率+成品名称
-                string shotji = "3+" + textBox3.Text + "+" + textBox6.Text + "+" + D1084 + "+" + D1086 + "+"
+                string shotji = "3+" + textBox3.Text + "+" + txtWorkOrder.Text + "+" + D1084 + "+" + D1086 + "+"
                     + complte + "+" + Paate + "+" + D1090 + "+" + D1080
                         + "+" + prodproces + "+" + ustim + "+" + loadti
                         + "+" + shootthgh + "+" + tbxProductName.Text;
@@ -5243,7 +5241,7 @@ namespace MesDatas
                 //则试结果+ 则试节拍+则试项名称+ 则试项上限+则试项下限+测式项实际值
 
 
-                string chesAAA = "2+" + tbxStationName.Text + "+" + textBox6.Text + "+" + barcodeData + "+"
+                string chesAAA = "2+" + tbxStationName.Text + "+" + txtWorkOrder.Text + "+" + barcodeData + "+"
                                        + LoginUser.ToString() + "+" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +
                                            "+" + Value[9999] + "+" + D1090 + "+产品名称+" + "  " + "+" + "  " + "+" + tbxProductName.Text;
                 bulletindata += "|" + chesAAA;
@@ -5254,7 +5252,7 @@ namespace MesDatas
                 {
                     if (!string.IsNullOrWhiteSpace(frorckstr[i]))
                     {
-                        string chesBBB = "2+" + tbxStationName.Text + "+" + textBox6.Text + "+" + barcodeData + "+"
+                        string chesBBB = "2+" + tbxStationName.Text + "+" + txtWorkOrder.Text + "+" + barcodeData + "+"
                                         + LoginUser.ToString() + "+" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +
                                             "+" + Value[9999] + "+" + D1090 + "+工装编号" + (i + 1) + "+" + "  " + "+" + "  " + "+" + frorckstr[i];
                         bulletindata += "|" + chesBBB;
@@ -5267,7 +5265,7 @@ namespace MesDatas
                 {
                     if (!string.IsNullOrWhiteSpace(prodrow[i]))
                     {
-                        string chesCCC = "2+" + tbxStationName.Text + "+" + textBox6.Text + "+" + barcodeData + "+"
+                        string chesCCC = "2+" + tbxStationName.Text + "+" + txtWorkOrder.Text + "+" + barcodeData + "+"
                                            + LoginUser.ToString() + "+" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +
                                                "+" + Value[9999] + "+" + D1090 + "+产品物料号" + (i + 1) + "+" + " " + "+" + "  " + "+" + prodrow[i];
                         bulletindata += "|" + chesCCC;
@@ -5290,7 +5288,7 @@ namespace MesDatas
                             //则试结果+ 则试节拍+则试项名称+ 则试项上限+则试项下限+测式项实际值
                             if (maxValue[i].Equals("NO") && minValue[i].Equals("NO") && testResult[i].Equals("NO"))
                             {
-                                string cheshixm = "2+" + tbxStationName.Text + "+" + textBox6.Text + "+" + barcodeData + "+"
+                                string cheshixm = "2+" + tbxStationName.Text + "+" + txtWorkOrder.Text + "+" + barcodeData + "+"
                                         + LoginUser.ToString() + "+" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +
                                             "+" + Value[9999] + "+" + D1090 + "+" + AstrName[i] + "+" + "" + "+" + "" + "+" + list[i];
                                 bulletindata += "|" + cheshixm;
@@ -5299,7 +5297,7 @@ namespace MesDatas
                             }
                             else
                             {
-                                string cheshixm1 = "2+" + tbxStationName.Text + "+" + textBox6.Text + "+" + barcodeData + "+"
+                                string cheshixm1 = "2+" + tbxStationName.Text + "+" + txtWorkOrder.Text + "+" + barcodeData + "+"
                                     + LoginUser.ToString() + "+" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +
                                         "+" + Value[9999] + "+" + D1090 + "+" + AstrName[i] + "+" + maxlist[i] + "+" + minlist[i] + "+" + list[i];
                                 bulletindata += "|" + cheshixm1;
@@ -5319,7 +5317,7 @@ namespace MesDatas
                     //注意：(则试项名称+ 则试项上限+则试项下限+测式项实际值)为空
 
 
-                    string cheshixm2 = "2+" + tbxStationName.Text + "+" + textBox6.Text + "+" + barcodeData + "+"
+                    string cheshixm2 = "2+" + tbxStationName.Text + "+" + txtWorkOrder.Text + "+" + barcodeData + "+"
                      + LoginUser.ToString() + "+" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +
                             "+" + Value[9999] + "+" + D1090 + "+" + "测试总结果" + "+" + "   " + "+" + "    " + "+" + Value[9999];
                     bulletindata += "|" + cheshixm2;
@@ -5381,12 +5379,12 @@ namespace MesDatas
         {
             Invoke(new Action(() =>
             {
-                if (richTextBox3.TextLength > 50000)
+                if (rtbDashboardLog.TextLength > 50000)
                 {
-                    richTextBox3.Clear();
+                    rtbDashboardLog.Clear();
                 }
                 string info = string.Format("{0}:{1}\r\n", DateTime.Now.ToString("G"), msg);
-                richTextBox3.AppendText(info);
+                rtbDashboardLog.AppendText(info);
             }));
         }
 
@@ -5441,7 +5439,7 @@ namespace MesDatas
                             {
                                 Invoke(new Action(() =>
                                 {
-                                    textBox6.Text = dateshuzu[1];
+                                    txtWorkOrder.Text = dateshuzu[1];
                                 }));
                             }
                             else
@@ -5455,7 +5453,7 @@ namespace MesDatas
                             }
                             Invoke(new Action(() =>
                             {
-                                if (textBox6.Text.Equals(dateshuzu[1]))
+                                if (txtWorkOrder.Text.Equals(dateshuzu[1]))
                                 {
                                     Send("6+" + label54.Text + "生产工单发送成功");
                                 }
@@ -5576,7 +5574,7 @@ namespace MesDatas
             {
 
                 // 触发通讯读
-                if (plcConn == true)
+                if (isPlcConn == true)
                 {
                     //var Read_data1 = KeyenceMcNet.ReadInt16("D1000").Content;
                     var read_data2 = KeyenceMcNet.ReadInt32("D1012").Content;      // 读取寄存器int值 

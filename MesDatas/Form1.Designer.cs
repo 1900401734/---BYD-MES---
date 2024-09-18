@@ -172,11 +172,11 @@ namespace MesDatas
             this.button15 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.rtbDashboardLog = new System.Windows.Forms.RichTextBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.rtbProductLog = new System.Windows.Forms.RichTextBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.rtbMesLog = new System.Windows.Forms.RichTextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -237,10 +237,10 @@ namespace MesDatas
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label73 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkBindOrder = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtWorkOrder = new System.Windows.Forms.TextBox();
             this.label104 = new System.Windows.Forms.Label();
             this.textBox41 = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
@@ -1367,39 +1367,39 @@ namespace MesDatas
             // 
             // groupBox12
             // 
-            this.groupBox12.Controls.Add(this.richTextBox3);
+            this.groupBox12.Controls.Add(this.rtbDashboardLog);
             resources.ApplyResources(this.groupBox12, "groupBox12");
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.TabStop = false;
             // 
-            // richTextBox3
+            // rtbDashboardLog
             // 
-            resources.ApplyResources(this.richTextBox3, "richTextBox3");
-            this.richTextBox3.Name = "richTextBox3";
+            resources.ApplyResources(this.rtbDashboardLog, "rtbDashboardLog");
+            this.rtbDashboardLog.Name = "rtbDashboardLog";
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.richTextBox4);
+            this.groupBox9.Controls.Add(this.rtbProductLog);
             resources.ApplyResources(this.groupBox9, "groupBox9");
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.TabStop = false;
             // 
-            // richTextBox4
+            // rtbProductLog
             // 
-            resources.ApplyResources(this.richTextBox4, "richTextBox4");
-            this.richTextBox4.Name = "richTextBox4";
+            resources.ApplyResources(this.rtbProductLog, "rtbProductLog");
+            this.rtbProductLog.Name = "rtbProductLog";
             // 
             // groupBox14
             // 
-            this.groupBox14.Controls.Add(this.richTextBox1);
+            this.groupBox14.Controls.Add(this.rtbMesLog);
             resources.ApplyResources(this.groupBox14, "groupBox14");
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.TabStop = false;
             // 
-            // richTextBox1
+            // rtbMesLog
             // 
-            resources.ApplyResources(this.richTextBox1, "richTextBox1");
-            this.richTextBox1.Name = "richTextBox1";
+            resources.ApplyResources(this.rtbMesLog, "rtbMesLog");
+            this.rtbMesLog.Name = "rtbMesLog";
             // 
             // tabPage8
             // 
@@ -1808,7 +1808,7 @@ namespace MesDatas
             this.tableLayoutPanel2.Controls.Add(this.label73, 0, 6);
             this.tableLayoutPanel2.Controls.Add(this.panel9, 1, 6);
             this.tableLayoutPanel2.Controls.Add(this.label17, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this.textBox6, 1, 5);
+            this.tableLayoutPanel2.Controls.Add(this.txtWorkOrder, 1, 5);
             this.tableLayoutPanel2.Controls.Add(this.label104, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.textBox41, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.label32, 0, 3);
@@ -1836,16 +1836,16 @@ namespace MesDatas
             // panel9
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.panel9, 3);
-            this.panel9.Controls.Add(this.checkBox1);
+            this.panel9.Controls.Add(this.chkBindOrder);
             this.panel9.Controls.Add(this.button2);
             resources.ApplyResources(this.panel9, "panel9");
             this.panel9.Name = "panel9";
             // 
-            // checkBox1
+            // chkBindOrder
             // 
-            resources.ApplyResources(this.checkBox1, "checkBox1");
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.chkBindOrder, "chkBindOrder");
+            this.chkBindOrder.Name = "chkBindOrder";
+            this.chkBindOrder.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -1859,11 +1859,11 @@ namespace MesDatas
             resources.ApplyResources(this.label17, "label17");
             this.label17.Name = "label17";
             // 
-            // textBox6
+            // txtWorkOrder
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.textBox6, 3);
-            resources.ApplyResources(this.textBox6, "textBox6");
-            this.textBox6.Name = "textBox6";
+            this.tableLayoutPanel2.SetColumnSpan(this.txtWorkOrder, 3);
+            resources.ApplyResources(this.txtWorkOrder, "txtWorkOrder");
+            this.txtWorkOrder.Name = "txtWorkOrder";
             // 
             // label104
             // 
@@ -2713,9 +2713,9 @@ namespace MesDatas
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.RichTextBox rtbProductLog;
         private System.Windows.Forms.GroupBox groupBox14;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox rtbMesLog;
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -2758,7 +2758,7 @@ namespace MesDatas
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.RichTextBox rtbDashboardLog;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.GroupBox groupBox15;
@@ -2870,10 +2870,10 @@ namespace MesDatas
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label73;
         private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkBindOrder;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox txtWorkOrder;
         private System.Windows.Forms.Label label104;
         private System.Windows.Forms.TextBox textBox41;
         private System.Windows.Forms.Label label32;
