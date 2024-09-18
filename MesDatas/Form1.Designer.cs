@@ -112,7 +112,7 @@ namespace MesDatas
             this.panel19 = new System.Windows.Forms.Panel();
             this.label77 = new System.Windows.Forms.Label();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
-            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.chkBypassFixtureVali = new System.Windows.Forms.CheckBox();
             this.groupBox29 = new System.Windows.Forms.GroupBox();
             this.label99 = new System.Windows.Forms.Label();
             this.label98 = new System.Windows.Forms.Label();
@@ -123,7 +123,7 @@ namespace MesDatas
             this.button28 = new System.Windows.Forms.Button();
             this.button27 = new System.Windows.Forms.Button();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.chkBypassBarcodeValidation = new System.Windows.Forms.CheckBox();
             this.label91 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label78 = new System.Windows.Forms.Label();
@@ -225,14 +225,14 @@ namespace MesDatas
             this.groupBox31 = new System.Windows.Forms.GroupBox();
             this.dataGridViewDynamic5 = new MesDatasCore.DataGridViewDynamic();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label_Value = new System.Windows.Forms.Label();
+            this.lblProductResult = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label71 = new System.Windows.Forms.Label();
+            this.lblActionTips = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label70 = new System.Windows.Forms.Label();
+            this.lblRunningStatus = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
             this.条码数据 = new System.Windows.Forms.GroupBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.txtShowBarcode = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label73 = new System.Windows.Forms.Label();
@@ -283,12 +283,12 @@ namespace MesDatas
             this.label107 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
             this.label108 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this.label57 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label115 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
+            this.lblUploadStatus = new System.Windows.Forms.Label();
+            this.lblValidationStatus = new System.Windows.Forms.Label();
+            this.lblScanBarcodeSatus = new System.Windows.Forms.Label();
+            this.lblPlcStatus = new System.Windows.Forms.Label();
+            this.lblDashboardStatus = new System.Windows.Forms.Label();
+            this.lblDeviceStatus = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.panel20 = new System.Windows.Forms.Panel();
@@ -965,10 +965,10 @@ namespace MesDatas
             // 
             this.panel19.Controls.Add(this.label77);
             this.panel19.Controls.Add(this.checkBox11);
-            this.panel19.Controls.Add(this.checkBox10);
+            this.panel19.Controls.Add(this.chkBypassFixtureVali);
             this.panel19.Controls.Add(this.groupBox29);
             this.panel19.Controls.Add(this.checkBox9);
-            this.panel19.Controls.Add(this.checkBox8);
+            this.panel19.Controls.Add(this.chkBypassBarcodeValidation);
             this.panel19.Controls.Add(this.label91);
             this.panel19.Controls.Add(this.textBox5);
             this.panel19.Controls.Add(this.label78);
@@ -994,11 +994,11 @@ namespace MesDatas
             this.checkBox11.Name = "checkBox11";
             this.checkBox11.UseVisualStyleBackColor = true;
             // 
-            // checkBox10
+            // chkBypassFixtureVali
             // 
-            resources.ApplyResources(this.checkBox10, "checkBox10");
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.chkBypassFixtureVali, "chkBypassFixtureVali");
+            this.chkBypassFixtureVali.Name = "chkBypassFixtureVali";
+            this.chkBypassFixtureVali.UseVisualStyleBackColor = true;
             // 
             // groupBox29
             // 
@@ -1064,11 +1064,11 @@ namespace MesDatas
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // chkBypassBarcodeValidation
             // 
-            resources.ApplyResources(this.checkBox8, "checkBox8");
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.chkBypassBarcodeValidation, "chkBypassBarcodeValidation");
+            this.chkBypassBarcodeValidation.Name = "chkBypassBarcodeValidation";
+            this.chkBypassBarcodeValidation.UseVisualStyleBackColor = true;
             // 
             // label91
             // 
@@ -1741,40 +1741,40 @@ namespace MesDatas
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.label_Value);
+            this.groupBox8.Controls.Add(this.lblProductResult);
             resources.ApplyResources(this.groupBox8, "groupBox8");
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.TabStop = false;
             // 
-            // label_Value
+            // lblProductResult
             // 
-            this.label_Value.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label_Value, "label_Value");
-            this.label_Value.Name = "label_Value";
+            this.lblProductResult.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.lblProductResult, "lblProductResult");
+            this.lblProductResult.Name = "lblProductResult";
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.label71);
+            this.groupBox7.Controls.Add(this.lblActionTips);
             resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
             // 
-            // label71
+            // lblActionTips
             // 
-            resources.ApplyResources(this.label71, "label71");
-            this.label71.Name = "label71";
+            resources.ApplyResources(this.lblActionTips, "lblActionTips");
+            this.lblActionTips.Name = "lblActionTips";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label70);
+            this.groupBox2.Controls.Add(this.lblRunningStatus);
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // label70
+            // lblRunningStatus
             // 
-            resources.ApplyResources(this.label70, "label70");
-            this.label70.Name = "label70";
+            resources.ApplyResources(this.lblRunningStatus, "lblRunningStatus");
+            this.lblRunningStatus.Name = "lblRunningStatus";
             // 
             // panel11
             // 
@@ -1784,16 +1784,16 @@ namespace MesDatas
             // 
             // 条码数据
             // 
-            this.条码数据.Controls.Add(this.textBox8);
+            this.条码数据.Controls.Add(this.txtShowBarcode);
             resources.ApplyResources(this.条码数据, "条码数据");
             this.条码数据.Name = "条码数据";
             this.条码数据.TabStop = false;
             // 
-            // textBox8
+            // txtShowBarcode
             // 
-            resources.ApplyResources(this.textBox8, "textBox8");
-            this.textBox8.ForeColor = System.Drawing.Color.Goldenrod;
-            this.textBox8.Name = "textBox8";
+            resources.ApplyResources(this.txtShowBarcode, "txtShowBarcode");
+            this.txtShowBarcode.ForeColor = System.Drawing.Color.Goldenrod;
+            this.txtShowBarcode.Name = "txtShowBarcode";
             // 
             // groupBox1
             // 
@@ -2127,12 +2127,12 @@ namespace MesDatas
             this.groupBox10.Controls.Add(this.label107);
             this.groupBox10.Controls.Add(this.label55);
             this.groupBox10.Controls.Add(this.label108);
-            this.groupBox10.Controls.Add(this.label58);
-            this.groupBox10.Controls.Add(this.label57);
-            this.groupBox10.Controls.Add(this.label56);
-            this.groupBox10.Controls.Add(this.label115);
-            this.groupBox10.Controls.Add(this.label43);
-            this.groupBox10.Controls.Add(this.label38);
+            this.groupBox10.Controls.Add(this.lblUploadStatus);
+            this.groupBox10.Controls.Add(this.lblValidationStatus);
+            this.groupBox10.Controls.Add(this.lblScanBarcodeSatus);
+            this.groupBox10.Controls.Add(this.lblPlcStatus);
+            this.groupBox10.Controls.Add(this.lblDashboardStatus);
+            this.groupBox10.Controls.Add(this.lblDeviceStatus);
             resources.ApplyResources(this.groupBox10, "groupBox10");
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.TabStop = false;
@@ -2167,44 +2167,44 @@ namespace MesDatas
             resources.ApplyResources(this.label108, "label108");
             this.label108.Name = "label108";
             // 
-            // label58
+            // lblUploadStatus
             // 
-            resources.ApplyResources(this.label58, "label58");
-            this.label58.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label58.Name = "label58";
+            resources.ApplyResources(this.lblUploadStatus, "lblUploadStatus");
+            this.lblUploadStatus.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.lblUploadStatus.Name = "lblUploadStatus";
             // 
-            // label57
+            // lblValidationStatus
             // 
-            resources.ApplyResources(this.label57, "label57");
-            this.label57.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label57.Name = "label57";
+            resources.ApplyResources(this.lblValidationStatus, "lblValidationStatus");
+            this.lblValidationStatus.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.lblValidationStatus.Name = "lblValidationStatus";
             // 
-            // label56
+            // lblScanBarcodeSatus
             // 
-            resources.ApplyResources(this.label56, "label56");
-            this.label56.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label56.Name = "label56";
+            resources.ApplyResources(this.lblScanBarcodeSatus, "lblScanBarcodeSatus");
+            this.lblScanBarcodeSatus.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.lblScanBarcodeSatus.Name = "lblScanBarcodeSatus";
             // 
-            // label115
+            // lblPlcStatus
             // 
-            resources.ApplyResources(this.label115, "label115");
-            this.label115.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label115.Name = "label115";
+            resources.ApplyResources(this.lblPlcStatus, "lblPlcStatus");
+            this.lblPlcStatus.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.lblPlcStatus.Name = "lblPlcStatus";
             // 
-            // label43
+            // lblDashboardStatus
             // 
-            this.label43.Cursor = System.Windows.Forms.Cursors.Hand;
-            resources.ApplyResources(this.label43, "label43");
-            this.label43.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label43.Name = "label43";
+            this.lblDashboardStatus.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.lblDashboardStatus, "lblDashboardStatus");
+            this.lblDashboardStatus.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.lblDashboardStatus.Name = "lblDashboardStatus";
             // 
-            // label38
+            // lblDeviceStatus
             // 
-            this.label38.BackColor = System.Drawing.Color.Transparent;
-            this.label38.Cursor = System.Windows.Forms.Cursors.Hand;
-            resources.ApplyResources(this.label38, "label38");
-            this.label38.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label38.Name = "label38";
+            this.lblDeviceStatus.BackColor = System.Drawing.Color.Transparent;
+            this.lblDeviceStatus.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.lblDeviceStatus, "lblDeviceStatus");
+            this.lblDeviceStatus.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.lblDeviceStatus.Name = "lblDeviceStatus";
             // 
             // tabControl1
             // 
@@ -2836,7 +2836,7 @@ namespace MesDatas
         private System.Windows.Forms.Label label91;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label78;
-        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox chkBypassBarcodeValidation;
         private System.Windows.Forms.Label label86;
         private System.Windows.Forms.TextBox tbxBrandID;
         private System.Windows.Forms.Label label96;
@@ -2899,26 +2899,26 @@ namespace MesDatas
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.Label label_Value;
+        private System.Windows.Forms.Label lblProductResult;
         private System.Windows.Forms.GroupBox 条码数据;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txtShowBarcode;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.Label lblActionTips;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.Label lblRunningStatus;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.Label lblUploadStatus;
         private System.Windows.Forms.Label label108;
         private System.Windows.Forms.Label label107;
-        private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label lblDeviceStatus;
+        private System.Windows.Forms.Label lblDashboardStatus;
         private System.Windows.Forms.Label label106;
-        private System.Windows.Forms.Label label115;
+        private System.Windows.Forms.Label lblPlcStatus;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Label label56;
-        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.Label lblScanBarcodeSatus;
+        private System.Windows.Forms.Label lblValidationStatus;
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.Panel panel25;
         private System.Windows.Forms.GroupBox groupBox31;
@@ -2932,7 +2932,7 @@ namespace MesDatas
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.Label label72;
-        private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.CheckBox chkBypassFixtureVali;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label74;
         private System.Windows.Forms.TextBox textBox_user;

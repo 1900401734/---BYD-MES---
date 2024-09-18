@@ -183,7 +183,7 @@ namespace MesDatas
         public string 工单号;
         public bool 产品结果;
         public int Num = 1;
-        public string barcodeID = null;
+        public string barcodeInfo = null;
         int[] Count = new int[10000];
         string[] Parameter = new string[10000];
         string[] Value = new string[10000];
@@ -365,9 +365,9 @@ namespace MesDatas
             }
             else
             {
-                label70.ForeColor = G;
-                label70.Text = resources.GetString("UserCheck");
-                label71.Text = resources.GetString("scanning");
+                lblRunningStatus.ForeColor = G;
+                lblRunningStatus.Text = resources.GetString("UserCheck");
+                lblActionTips.Text = resources.GetString("scanning");
             }
             button16_Click(null, null);//连接看板
             TCP_Connect(null, null); //连接PLC
@@ -398,9 +398,9 @@ namespace MesDatas
             }
 
             //初始状态为待机
-            label_Value.Text = resources.GetString("label_Value");
-            label_Value.ForeColor = B;
-            label_Value.BackColor = W;
+            lblProductResult.Text = resources.GetString("label_Value");
+            lblProductResult.ForeColor = B;
+            lblProductResult.BackColor = W;
 
             //如果联机用户验证失败  直接返回
             if (OffLineType == 0 && loginCheck == false)
@@ -432,7 +432,7 @@ namespace MesDatas
             }
 
             sedbool = true;
-            barcodeID = "1";
+            barcodeInfo = "1";
             //Button12_Click(null, null);
             //Button18_Click(null, null);
             //taskMinMaxplc = new Task();//读取上下值数据
@@ -496,9 +496,9 @@ namespace MesDatas
                         checkBox4.CheckedChanged += CheckBox_CheckedChanged;    // 读取PLC型号
                         cbxOpenBulletin.CheckedChanged += CheckBox_CheckedChanged;    // 启用看板
                         //checkBox17.CheckedChanged += CheckBox_CheckedChanged;   // PLC控制打印
-                        checkBox8.CheckedChanged += CheckBox_CheckedChanged;    // 屏蔽本地条码验证
+                        chkBypassBarcodeValidation.CheckedChanged += CheckBox_CheckedChanged;    // 屏蔽本地条码验证
                         checkBox9.CheckedChanged += CheckBox_CheckedChanged;    // 二次读条码
-                        checkBox10.CheckedChanged += CheckBox_CheckedChanged;   // 屏蔽本地扫工装验证
+                        chkBypassFixtureVali.CheckedChanged += CheckBox_CheckedChanged;   // 屏蔽本地扫工装验证
                         checkBox11.CheckedChanged += CheckBox_CheckedChanged;   // 屏蔽本地二维码验证
                         //checkBox12.CheckedChanged += CheckBox_CheckedChanged;   // 屏蔽本地NG历史数据
                         //checkBox13.CheckedChanged += CheckBox_CheckedChanged;   // 屏蔽本地历史数据
@@ -788,12 +788,12 @@ namespace MesDatas
                 {
                     if (plcConn == true)
                     {
-                        label115.ForeColor = G;
+                        lblPlcStatus.ForeColor = G;
                         //  label115.Text = "PLC状态：已连接";
                     }
                     else
                     {
-                        label115.ForeColor = R;
+                        lblPlcStatus.ForeColor = R;
                         //   label115.Text = "PLC状态：未连接";
                     }
                     try
@@ -856,6 +856,7 @@ namespace MesDatas
             Thread.Sleep(50);
             Application.DoEvents();
         }
+
         /// <summary>
         /// 生产数据读取、上传
         /// </summary>
@@ -866,7 +867,7 @@ namespace MesDatas
                 // 触发通讯读
                 var short_D1 = KeyenceMcNet.ReadInt16("D1016").Content;
                 var short_D2 = KeyenceMcNet.ReadInt16("D1018").Content;
-                //Debug.WriteLine($"D1016:{short_D1}");
+
                 if (short_D1 == 1 && short_D2 == 0)
                 {
                     Invoke(new Action(() =>
@@ -1576,8 +1577,8 @@ namespace MesDatas
         /// <param name="e"></param>
         private void Button8_Click(object sender, EventArgs e)
         {
-            label70.Text = resources.GetString("user_yzz");
-            label71.Text = resources.GetString("Wait");
+            lblRunningStatus.Text = resources.GetString("user_yzz");
+            lblActionTips.Text = resources.GetString("Wait");
             Config_Mes(ip, port, timeout, url, site, user, password, resource, operation, nccode);
             bool 验证结果;
             string MES反馈;
@@ -1589,27 +1590,27 @@ namespace MesDatas
                 {
                     richTextBox1.Clear();
                     richTextBox1.AppendText(MES反馈);
-                    label70.ForeColor = G;
-                    label70.Text = resources.GetString("onlineUser_OK");
-                    label71.Text = resources.GetString("scanning");
+                    lblRunningStatus.ForeColor = G;
+                    lblRunningStatus.Text = resources.GetString("onlineUser_OK");
+                    lblActionTips.Text = resources.GetString("scanning");
                     loginCheck = true;
                 }
                 else
                 {
                     richTextBox1.Clear();
                     richTextBox1.AppendText(MES反馈);
-                    label70.ForeColor = R;
-                    label70.Text = resources.GetString("onlineUser_NG");
-                    label71.Text = resources.GetString("Check_param");
+                    lblRunningStatus.ForeColor = R;
+                    lblRunningStatus.Text = resources.GetString("onlineUser_NG");
+                    lblActionTips.Text = resources.GetString("Check_param");
                 }
             }
             else
             {
                 richTextBox1.Clear();
                 richTextBox1.AppendText(MES反馈);
-                label70.ForeColor = R;
-                label70.Text = resources.GetString("onlineUser_NG");
-                label71.Text = resources.GetString("Check_param");
+                lblRunningStatus.ForeColor = R;
+                lblRunningStatus.Text = resources.GetString("onlineUser_NG");
+                lblActionTips.Text = resources.GetString("Check_param");
             }
         }
 
@@ -1624,7 +1625,7 @@ namespace MesDatas
         {
             Parameter_txt[2002] = "0";
             Parameter_txt[2004] = "0";
-            string 产品条码 = barcodeID;
+            string 产品条码 = barcodeInfo;
             bool 验证结果;
             string MES反馈;
             string XMLOUT; ;
@@ -2206,7 +2207,7 @@ namespace MesDatas
                                         string[] frockC = textBox41.Text.ToString().Split('+');
                                         if (!CodeNum.CopareArr(frockA, frockC))
                                         {
-                                            label71.Text = resources.GetString("Wait_scan_Jig");
+                                            lblActionTips.Text = resources.GetString("Wait_scan_Jig");
                                         }
                                     }
 
@@ -2218,28 +2219,28 @@ namespace MesDatas
                                     switch (runstate)//对设备状态进行判断
                                     {
                                         case "1"://1=生产运行 
-                                            label38.ForeColor = G;
+                                            lblDeviceStatus.ForeColor = G;
                                             // label38.Text = "设备状态：运行";
                                             Fouddinog();
                                             break;
                                         case "2"://2=故障未停机  
-                                            label38.ForeColor = R;
+                                            lblDeviceStatus.ForeColor = R;
                                             //  label38.Text = "设备状态：触发故障";
                                             Namestation("触发故障");
                                             break;
                                         case "3":// 3=故障停机 
-                                            label38.ForeColor = R;
+                                            lblDeviceStatus.ForeColor = R;
                                             //  label38.Text = "设备状态：故障停机";
                                             //faultsID.Split[]
                                             Namestation("故障停机");
                                             break;
                                         case "4"://4=待机
-                                            label38.ForeColor = O;
+                                            lblDeviceStatus.ForeColor = O;
                                             // label38.Text = "设备状态：待机";
                                             Fouddinog();
                                             break;
                                         default:
-                                            label38.ForeColor = R;
+                                            lblDeviceStatus.ForeColor = R;
                                             // label38.Text = "设备状态：断线";
                                             break;
                                     }
@@ -3238,49 +3239,32 @@ namespace MesDatas
 
             if (plcConn == true)
             {
-                //Invoke(new Action(() =>
-                //{
-                //    DateTime times_Month = DateTime.Now;
-                //    string times_Month_string0 = times_Month.Year.ToString();
-                //    string times_Month_string1 = times_Month.Month.ToString();
-                //    string times_Month_string2 = times_Month.Day.ToString();
-                //    DateTime times_Start = dateTimePicker1.Value.Date;
-                //    DateTime times_End = dateTimePicker2.Value.Date;
-                //    string times_Start_string = times_Start.ToString();
-                //    string times_End_string = times_End.ToString();
-                //    DateTime times_Start_Sub = DateTime.Parse(times_Start_string);
-                //    DateTime times_End_Sub = DateTime.Parse(times_End_string);
-                //}));
-
-                //var Read_data1 = KeyenceMcNet.ReadInt16("D1000").Content;
                 var Read_data = KeyenceMcNet.ReadInt32("D1000").Content;      // 读取寄存器int值 
-                                                                              //Debug.WriteLine($"D1000:{Read_data}");
-                                                                              // LogMsg("条码是否可读【D1000】 = " + Read_data);
+
                 if (Read_data == 1)
                 {
                     Invoke(new Action(() =>
                     {
-                        label56.ForeColor = B;
-                        label57.ForeColor = B;
-                        label58.ForeColor = B;
-                        label70.ForeColor = B;
-                        //label48.Text = "待机";
-                        //label48.ForeColor = B;
-                        //label48.BackColor = W;
-                        label_Value.Text = resources.GetString("label_Value");
-                        label_Value.ForeColor = B;
-                        label_Value.BackColor = W;
-                        //label43.Text = DateTime.Now.ToString();
-                        LogMsg("准备读码....");
-                        string barcodeID2 = KeyenceMcNet.ReadString("D1100", 10).Content;
-                        string barcodeID1 = CodeNum.StrVBcd(barcodeID2);
-                        textBox8.Text = barcodeID1;
-                        LogMsg("条码【D1100】 = " + barcodeID1);
-                        barcodeID = barcodeID1;
-                        if (string.IsNullOrEmpty(barcodeID))
+                        lblScanBarcodeSatus.ForeColor = B;  // 扫码状态指示灯
+                        lblValidationStatus.ForeColor = B;  // 验证状态指示灯
+                        lblUploadStatus.ForeColor = B;      // 上传状态指示灯
+
+                        lblRunningStatus.ForeColor = B;
+                        lblProductResult.Text = resources.GetString("label_Value"); // 待机
+                        lblProductResult.ForeColor = B;
+                        lblProductResult.BackColor = W;
+
+                        LogMsg("准备读条码....");
+                        string rawBarcode = KeyenceMcNet.ReadString("D1100", 10).Content;
+                        this.barcodeInfo = CodeNum.StrVBcd(rawBarcode);
+                        txtShowBarcode.Text = barcodeInfo;
+                        LogMsg($"条码【D1100】 = {barcodeInfo} ");
+
+                        // 条码为空
+                        if (string.IsNullOrEmpty(barcodeInfo))
                         {
-                            label56.ForeColor = R;
-                            textBox8.Text = resources.GetString("barCode_State");
+                            lblScanBarcodeSatus.ForeColor = R;
+                            txtShowBarcode.Text = resources.GetString("barCode_State"); // 未获取到条码，请重新扫描！
                             LogMsg("未获取到条码！");
                             try
                             {
@@ -3288,29 +3272,32 @@ namespace MesDatas
                                 LogMsg("反馈条码验证【D1005】 = 1");
                             }
                             catch (Exception ex)
-                            { LogMsg(ex.ToString()); }
+                            {
+                                LogMsg(ex.ToString());
+                            }
                             return;
                         }
-                        if (checkBox8.Checked == false)
+
+                        if (chkBypassBarcodeValidation.Checked == false)
                         {
-                            if (checkBox10.Checked == false)
+                            if (chkBypassFixtureVali.Checked == false)
                             {
                                 string[] frockA = CodeNum.Confrock(comboBox2.Text);
                                 string[] frockB = textBox41.Text.ToString().Split('+');
                                 if (!CodeNum.CopareArr(frockA, frockB))
                                 {
-                                    if (frockA.Contains(barcodeID))
+                                    if (frockA.Contains(barcodeInfo))
                                     {
 
                                         if (string.IsNullOrWhiteSpace(textBox41.Text))
                                         {
-                                            textBox41.Text = barcodeID;
+                                            textBox41.Text = barcodeInfo;
                                         }
                                         else
                                         {
-                                            if (!frockB.Contains(barcodeID))
+                                            if (!frockB.Contains(barcodeInfo))
                                             {
-                                                textBox41.Text = textBox41.Text + "+" + barcodeID;
+                                                textBox41.Text = textBox41.Text + "+" + barcodeInfo;
                                             }
                                         }
                                         string[] frockC = textBox41.Text.ToString().Split('+');
@@ -3324,11 +3311,11 @@ namespace MesDatas
                                                 var result = mdb.Change(sql);
                                             }
                                             mdb.CloseConnection();
-                                            label71.Text = resources.GetString("scanning");
+                                            lblActionTips.Text = resources.GetString("scanning");
                                         }
-                                        label56.ForeColor = G;
-                                        label70.ForeColor = G;
-                                        label70.Text = resources.GetString("Fixture_OK");
+                                        lblScanBarcodeSatus.ForeColor = G;
+                                        lblRunningStatus.ForeColor = G;
+                                        lblRunningStatus.Text = resources.GetString("Fixture_OK");
                                         try
                                         {
                                             KeyenceMcNet.Write("D1003", 2);
@@ -3340,9 +3327,9 @@ namespace MesDatas
                                     }
                                     else
                                     {
-                                        label70.ForeColor = R;
-                                        label70.Text = resources.GetString("Fixture_NG");
-                                        label57.ForeColor = R;
+                                        lblRunningStatus.ForeColor = R;
+                                        lblRunningStatus.Text = resources.GetString("Fixture_NG");
+                                        lblValidationStatus.ForeColor = R;
                                         LogMsg("工装编号验证失败！");
                                         try
                                         {
@@ -3355,20 +3342,21 @@ namespace MesDatas
                                     }
                                 }
                             }
-                            if (barcodeID != "1")
+
+                            if (barcodeInfo != "1")
                             {
                                 DateTime times_Month = DateTime.Now;
                                 string times_Month_string0 = times_Month.Year.ToString();
                                 string times_Month_string1 = times_Month.Month.ToString();
                                 string context = label2.Text + "\\" + times_Month_string0 + "年" + times_Month_string1 + "月" + "生产数据.mdb";
                                 mdb = new mdbDatas(context);
-                                bool boFbarcod = mdb.FarettuFind("select * from Sheet1 where 条码 = '" + barcodeID + "'");
+                                bool boFbarcod = mdb.FarettuFind("select * from Sheet1 where 条码 = '" + barcodeInfo + "'");
                                 mdb.CloseConnection();
                                 if (boFbarcod)
                                 {
-                                    label70.ForeColor = R;
-                                    label70.Text = resources.GetString("barCode_repeat");
-                                    label57.ForeColor = R;
+                                    lblRunningStatus.ForeColor = R;
+                                    lblRunningStatus.Text = resources.GetString("barCode_repeat");
+                                    lblValidationStatus.ForeColor = R;
                                     LogMsg("条码重复扫过，请重新扫描！");
                                     try
                                     {
@@ -3380,13 +3368,15 @@ namespace MesDatas
                                     return;
                                 }
                             }
+
                             string bardid = CodeNum.Condend(comboBox2.Text);
+
                             //验证条码
                             if (string.IsNullOrWhiteSpace(bardid))
                             {
-                                label70.ForeColor = R;
-                                label70.Text = resources.GetString("barCode_NG");
-                                label57.ForeColor = R;
+                                lblRunningStatus.ForeColor = R;
+                                lblRunningStatus.Text = resources.GetString("barCode_NG");
+                                lblValidationStatus.ForeColor = R;
                                 LogMsg("没有选择条码验证！！");
                                 try
                                 {
@@ -3401,9 +3391,9 @@ namespace MesDatas
                             {
                                 int barlong = bardid.Length;
                                 bool barboo = false;
-                                if (barcodeID.Length > 15 && barcodeID.Length > barlong)
+                                if (barcodeInfo.Length > 15 && barcodeInfo.Length > barlong)
                                 {
-                                    string barsper = barcodeID.Substring(0, barlong);
+                                    string barsper = barcodeInfo.Substring(0, barlong);
                                     if (bardid.Equals(barsper))
                                     {
                                         barboo = true;
@@ -3411,9 +3401,9 @@ namespace MesDatas
                                 }
                                 if (barboo == false)
                                 {
-                                    label70.ForeColor = R;
-                                    label70.Text = resources.GetString("barCode_NG");
-                                    label57.ForeColor = R;
+                                    lblRunningStatus.ForeColor = R;
+                                    lblRunningStatus.Text = resources.GetString("barCode_NG");
+                                    lblValidationStatus.ForeColor = R;
                                     LogMsg("没有写条码验证！！");
                                     try
                                     {
@@ -3426,12 +3416,13 @@ namespace MesDatas
                                 }
                             }
                         }
+
                         //条码规则验证();
                         if (OffLineType == 1)
                         {
-                            label56.ForeColor = G;
-                            label70.ForeColor = G;
-                            label70.Text = resources.GetString("barCode_OK");
+                            lblScanBarcodeSatus.ForeColor = G;
+                            lblRunningStatus.ForeColor = G;
+                            lblRunningStatus.Text = resources.GetString("barCode_OK");
                             try
                             {
                                 KeyenceMcNet.Write("D1003", 1);
@@ -3452,9 +3443,9 @@ namespace MesDatas
                             if (Parameter_txt[2002] == "1")
                             {
 
-                                label70.ForeColor = G;
-                                label70.Text = resources.GetString("barCode_OK");
-                                label57.ForeColor = G;
+                                lblRunningStatus.ForeColor = G;
+                                lblRunningStatus.Text = resources.GetString("barCode_OK");
+                                lblValidationStatus.ForeColor = G;
                                 try
                                 {
                                     KeyenceMcNet.Write("D1003", 1);
@@ -3465,9 +3456,9 @@ namespace MesDatas
                             }
                             else if (Parameter_txt[2004] == "1")
                             {
-                                label70.ForeColor = R;
-                                label70.Text = resources.GetString("barCode_NG_MES");
-                                label57.ForeColor = R;
+                                lblRunningStatus.ForeColor = R;
+                                lblRunningStatus.Text = resources.GetString("barCode_NG_MES");
+                                lblValidationStatus.ForeColor = R;
                                 try
                                 {
                                     KeyenceMcNet.Write("D1005", 1);
@@ -3482,7 +3473,7 @@ namespace MesDatas
 
                         // busTcpClient.Write("2000", Convert.ToInt16(0));
                         LogMsg("条码读取完成.........");
-                        label71.Text = resources.GetString("ScanBarCode_OK");
+                        lblActionTips.Text = resources.GetString("ScanBarCode_OK");
                     }));
                 }
                 if (Read_data == 2)
@@ -3491,13 +3482,13 @@ namespace MesDatas
                     {
                         string barcodeID2 = KeyenceMcNet.ReadString("D1100", 10).Content;
                         string barcodeID1 = CodeNum.StrVBcd(barcodeID2);
-                        textBox8.Text = barcodeID1;
+                        txtShowBarcode.Text = barcodeID1;
                         LogMsg("条码【D1100】 = " + barcodeID1);
-                        barcodeID = barcodeID1;
-                        if (string.IsNullOrEmpty(barcodeID))
+                        barcodeInfo = barcodeID1;
+                        if (string.IsNullOrEmpty(barcodeInfo))
                         {
-                            label56.ForeColor = R;
-                            textBox8.Text = resources.GetString("barCode_State");
+                            lblScanBarcodeSatus.ForeColor = R;
+                            txtShowBarcode.Text = resources.GetString("barCode_State");
                             LogMsg("未获取到条码，请重新扫描！");
                             try
                             {
@@ -3509,11 +3500,11 @@ namespace MesDatas
                             return;
                         }
                         string[] frockA = textBox42.Text.ToString().Split('+');
-                        if (frockA.Contains(barcodeID))
+                        if (frockA.Contains(barcodeInfo))
                         {
-                            label56.ForeColor = G;
-                            label70.ForeColor = G;
-                            label70.Text = resources.GetString("material_OK");
+                            lblScanBarcodeSatus.ForeColor = G;
+                            lblRunningStatus.ForeColor = G;
+                            lblRunningStatus.Text = resources.GetString("material_OK");
                             try
                             {
                                 KeyenceMcNet.Write("D1003", 3);
@@ -3525,9 +3516,9 @@ namespace MesDatas
                         }
                         else
                         {
-                            label70.ForeColor = R;
-                            label70.Text = resources.GetString("material_NG");
-                            label57.ForeColor = R;
+                            lblRunningStatus.ForeColor = R;
+                            lblRunningStatus.Text = resources.GetString("material_NG");
+                            lblValidationStatus.ForeColor = R;
                             LogMsg("物料验证失败，请重新扫描！");
                             try
                             {
@@ -3560,7 +3551,8 @@ namespace MesDatas
         /// <param name="e"></param>
         private void Button20_Click(object sender, EventArgs e, string wroID)
         {
-
+            sw.Start();
+            Console.WriteLine("Button20 Start");
             //D1820:I-0
             // int Read_data = busTcpClient.ReadInt16("2010").Content;  // 读取寄存器int值 
             if (plcConn == true)
@@ -3578,11 +3570,11 @@ namespace MesDatas
                     bool isRepat = false;
                     Invoke(new Action(() =>
                     {
-                        barcodeData = barcodeID;
+                        barcodeData = barcodeInfo;
                         Console.WriteLine("开始读取数据 = " + DateTime.Now.Hour.ToString() +
                         DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + "_" +
                         DateTime.Now.Millisecond.ToString() + ":" + short_D100);
-                        label71.Text = resources.GetString("begin_read_data");
+                        lblActionTips.Text = resources.GetString("begin_read_data");
 
                         LogMsg("生产结果数据读取中....");
                         string[] Read_string = new string[10000];
@@ -3619,8 +3611,8 @@ namespace MesDatas
                                 LogMsg("未上传数据直接反馈生产结果读取反馈【D1202】 = 1");
                                 Thread.Sleep(200);
                                 Application.DoEvents();
-                                label70.Text = "数据条码重复上传";
-                                label70.ForeColor = Color.Red;
+                                lblRunningStatus.Text = "数据条码重复上传";
+                                lblRunningStatus.ForeColor = Color.Red;
                                 isRepat = true;
                             }
                             barcodeRepat = barcodeData;
@@ -3701,29 +3693,30 @@ namespace MesDatas
                     {
                         if (Parameter_txt[3688] == "3")
                         {
-                            label_Value.Text = "OK";
-                            label_Value.ForeColor = W;
-                            label_Value.BackColor = G;
+                            lblProductResult.Text = "OK";
+                            lblProductResult.ForeColor = W;
+                            lblProductResult.BackColor = G;
                             Value[9999] = "OK";
 
                         }
                         else
                         {
-                            label_Value.Text = "NG";
-                            label_Value.ForeColor = W;
-                            label_Value.BackColor = R;
+                            lblProductResult.Text = "NG";
+                            lblProductResult.ForeColor = W;
+                            lblProductResult.BackColor = R;
                             Value[9999] = "NG";
                         }
                     }));
-                    //上传数据
+
+                    // 上传数据
                     if (OffLineType == 0)
                     {
                         Invoke(new Action(() =>
                         {
-                            label70.ForeColor = B;
-                            label70.Text = resources.GetString("Mes_upload");
-                            label71.Text = resources.GetString("Wait");
-                            label58.ForeColor = O;
+                            lblRunningStatus.ForeColor = B;
+                            lblRunningStatus.Text = resources.GetString("Mes_upload");
+                            lblActionTips.Text = resources.GetString("Wait");
+                            lblUploadStatus.ForeColor = O;
                             if (Value[9999] == "OK")
                             {
                                 产品结果 = true;
@@ -3735,15 +3728,15 @@ namespace MesDatas
                             Button7_Click(null, null);
                             if (Parameter_txt[2006] == "1")
                             {
-                                label70.Text = resources.GetString("Mes_upload_OK");
-                                label58.ForeColor = G;
+                                lblRunningStatus.Text = resources.GetString("Mes_upload_OK");
+                                lblUploadStatus.ForeColor = G;
                                 //KeyenceMcNet.Write("D3672", Convert.ToInt16(1));
                             }
                             else if (Parameter_txt[2008] == "1")
                             {
-                                label70.Text = resources.GetString("Mes_upload_NG");
-                                label58.ForeColor = R;
-                                label71.Text = resources.GetString("Re_upload");
+                                lblRunningStatus.Text = resources.GetString("Mes_upload_NG");
+                                lblUploadStatus.ForeColor = R;
+                                lblActionTips.Text = resources.GetString("Re_upload");
                                 // KeyenceMcNet.Write("D3674", Convert.ToInt16(1));
                             }
                         }));
@@ -3777,13 +3770,13 @@ namespace MesDatas
 
                         //label83.Text = Parameter_txt[1030]; label84.Text = Parameter_txt[1032]; //label.Text = Parameter_Model[17000];
                         //textBox6.Text = Parameter_txt[1034];
-                        label70.Text = resources.GetString("Read_data");
-                        label71.Text = resources.GetString("Wait");
+                        lblRunningStatus.Text = resources.GetString("Read_data");
+                        lblActionTips.Text = resources.GetString("Wait");
                         saveInfo(wroID);
                         //saveInfo();
                         //Savecsv(null, null);
-                        label70.Text = resources.GetString("Read_data_OK");
-                        label71.Text = resources.GetString("Continue_production");
+                        lblRunningStatus.Text = resources.GetString("Read_data_OK");
+                        lblActionTips.Text = resources.GetString("Continue_production");
                         //textBox17.Text = Parameter_txt[3676];//生产总数
                         //                                     //textBox16.Text = Parameter_txt[3678];//工单数量 
                         //textBox9.Text = Parameter_txt[3678];//工单数量
@@ -3813,12 +3806,17 @@ namespace MesDatas
                         LogMsg("生产结果读取反馈【D1202】 = 1");
                         Thread.Sleep(200);
                         Application.DoEvents();
-                        label70.Text = resources.GetString("scanning");
+                        lblRunningStatus.Text = resources.GetString("scanning");
                         //}
 
                     }));
                 }
             }
+
+            sw.Stop();
+            Console.WriteLine("Button20 End");
+
+            Console.WriteLine($"总耗时：{sw.Elapsed.TotalSeconds:F2}秒");
         }
 
         //static Stopwatch stopwatch = new Stopwatch();
@@ -4988,7 +4986,7 @@ namespace MesDatas
         {
             Invoke(new Action(() =>
             {
-                label43.ForeColor = R;
+                lblDashboardStatus.ForeColor = R;
                 //  label43.Text = "看板状态：未连接";
             }));
 
@@ -5029,7 +5027,7 @@ namespace MesDatas
 
                                 Invoke(new Action(() =>
                                 {
-                                    label43.ForeColor = G;
+                                    lblDashboardStatus.ForeColor = G;
                                     //  label43.Text = "看板状态：已连接";
                                 }));
 
@@ -5060,7 +5058,7 @@ namespace MesDatas
             {
 
                 IsStart = false;
-                label43.ForeColor = B;
+                lblDashboardStatus.ForeColor = B;
                 // label43.Text = "看板状态：未启用";
                 return;
             }
