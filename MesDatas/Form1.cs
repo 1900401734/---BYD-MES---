@@ -37,15 +37,6 @@ namespace MesDatas
     {
         public static int iOperCount = 0;
         public static System.Timers.Timer timer;
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000; // Turn on WS_EX_COMPOSITED
-                return cp;
-            }
-        }
 
         private int MES { get; set; }
         public void SetMES(int strText)
@@ -54,17 +45,14 @@ namespace MesDatas
         }
 
         /// <summary>
-        /// 登录模式(联机或单机)
+        /// 登录模式 (联机或单机) 0=联机  1=单机
         /// </summary>
         public string LoginMode { get; private set; }
-        /// <summary>
-        /// 0=联机  1=单机
-        /// </summary>
-        private int OffLineType { get; set; }
+        private int isOffLine { get; set; }
         public void SetoffLineType(int strText)
         {
-            OffLineType = strText;
-            LoginMode = OffLineType == 0 ? "联机" : "单机";
+            isOffLine = strText;
+            LoginMode = isOffLine == 0 ? "联机" : "单机";
         }
 
         /// <summary>
@@ -93,6 +81,7 @@ namespace MesDatas
             Access = strText;
             GetAccessName(Access);
         }
+
         /// <summary>
         /// 权限名
         /// </summary>
@@ -102,22 +91,22 @@ namespace MesDatas
             switch (access)
             {
                 case 1:
-                    AccessName = "操作员(OP)";
+                    AccessName = "OP";
                     break;
                 case 2:
-                    AccessName = "工艺工程师(PE)";
+                    AccessName = "PE";
                     break;
                 case 3:
-                    AccessName = "管理员(ADM)";
+                    AccessName = "ADM";
                     break;
                 case 4:
-                    AccessName = "开发者(DEV)";
+                    AccessName = "DEV";
                     break;
                 case 5:
-                    AccessName = "品质工程师(QE)";
+                    AccessName = "QE";
                     break;
                 case 6:
-                    AccessName = "设备工程师(ME)";
+                    AccessName = "ME";
                     break;
                 default:
                     AccessName = string.Empty;
@@ -335,16 +324,19 @@ namespace MesDatas
         /// <param name="e"></param>
         private void Form1_Shown(object sender, EventArgs e)
         {
-            Process();  // 根据登入信息分配主界面菜单
+            AssignUI();  // 根据登入信息分配主界面菜单
 
             // 初始化 CheckBox 的初始状态
             InitializeCheckBoxStates(this.Controls);
+
             // 配置Nlog全局变量
             LogManager.Configuration.Variables["LoginName"] = LoginName;
 
+            // 记录日志
             string loginInfo = $"【用户登录】\n工号：{LoginUser} | 姓名：{LoginName} | 权限：{AccessName} | 登录模式：{LoginMode} | 登录方式：{LoginMethod}";
             loggerAccount.Trace(loginInfo);
 
+            // 记录或加载故障停机前的信息
             try
             {
                 string jsonStr = File.ReadAllText(pathText);
@@ -358,27 +350,26 @@ namespace MesDatas
             {
                 faultsMap = new Dictionary<string, string>();
             }
-            if (OffLineType == 0)
+
+            // 联机登录验证
+            if (isOffLine == 0)
             {
-                //进行用户登录验证
                 VarifyUserLogin_MES(null, null);
             }
             else
             {
                 lblRunningStatus.ForeColor = G;
-                lblRunningStatus.Text = resources.GetString("UserCheck");
-                lblActionTips.Text = resources.GetString("scanning");
+                lblRunningStatus.Text = resources.GetString("UserCheck");   // 单机用户验证成功
+                lblActionTips.Text = resources.GetString("scanning");       // 等待扫描条码
             }
-            button16_Click(null, null);//连接看板
-            TCP_Connect(null, null); //连接PLC
-            taskProcess_MES = new Task(Process_MES); //检查PLC状态  写入状态状态信息
-            taskProcess_MES.Start();
-            Model_Read_Other();  //加载产品型号 
 
-            //根据状态写模式
-            //taskProcess_Offline = new Task(Process_Offline);
-            //taskProcess_Offline.Start();
-            Process_Offline();
+            BtnConnectBulletin_Click(null, null);   // 连接看板
+            TCP_Connect(null, null);                // 连接PLC
+            taskProcess_MES = new Task(Process_MES);         // 检查PLC状态  写入状态状态信息
+            taskProcess_MES.Start();
+            Model_Read_Other();                              // 加载产品型号 
+            Process_Offline();                               // 根据状态写模式
+
             workstNamelist = new List<string>();
             if (sequenceNum.Length > 0)
             {
@@ -387,7 +378,8 @@ namespace MesDatas
 
             rtbProductLog.Clear();
             UTYPE.SelectedIndex = 0;
-            //判断是否超级管理员、增加定时器
+
+            //  判断是否超级管理员、增加定时器
             if (Access == 3)
             {
                 timer = new System.Timers.Timer();
@@ -397,17 +389,17 @@ namespace MesDatas
                 timer.Start();
             }
 
-            //初始状态为待机
+            // 初始状态为待机
             lblProductResult.Text = resources.GetString("label_Value");
             lblProductResult.ForeColor = B;
             lblProductResult.BackColor = W;
 
-            //如果联机用户验证失败  直接返回
-            if (OffLineType == 0 && loginCheck == false)
+            // 如果联机用户验证失败  直接返回
+            if (isOffLine == 0 && isUserVarified == false)
             {
                 return;
             }
-            if (OffLineType == 1)
+            if (isOffLine == 1)
             {
                 txtWorkOrder.Text = "111111111111";
             }
@@ -789,29 +781,27 @@ namespace MesDatas
                     if (isPlcConn == true)
                     {
                         lblPlcStatus.ForeColor = G;
-                        //  label115.Text = "PLC状态：已连接";
+
+                        try
+                        {
+                            if (!string.IsNullOrEmpty(""))
+                            {
+                                if (isBulletinConn)
+                                {
+                                    KeyenceMcNet.Write("", 1);
+                                }
+                                else
+                                {
+                                    KeyenceMcNet.Write("", 0);
+                                }
+                            }
+                        }
+                        catch (Exception) { }
                     }
                     else
                     {
                         lblPlcStatus.ForeColor = R;
-                        //   label115.Text = "PLC状态：未连接";
                     }
-                    try
-                    {
-                        if (!string.IsNullOrEmpty(""))
-                        {
-                            if (IsStart)
-                            {
-                                KeyenceMcNet.WriteAsync("", 1);
-                            }
-                            else
-                            {
-                                KeyenceMcNet.WriteAsync("", 0);
-                            }
-                        }
-                    }
-                    catch (Exception) { }
-                    // IsRunningplc_MES = false;
                 }));
 
                 Thread.Sleep(100);
@@ -825,13 +815,13 @@ namespace MesDatas
             //{
             //    this.Invoke(new Action(() =>
             //    {
-            if (OffLineType == 1)
+            if (isOffLine == 1)
             {
 
                 label19.Text = resources.GetString("loginMode1");
                 label41.Text = $"{LoginUser.ToString()} ({LoginName})";
             }
-            else if (OffLineType == 0)
+            else if (isOffLine == 0)
             {
                 label19.Text = resources.GetString("loginMode");
                 label41.Text = $"{LoginUser.ToString()} ({LoginName})";
@@ -917,10 +907,8 @@ namespace MesDatas
             Application.DoEvents();
         }
 
-        private void Process()
+        private void AssignUI()
         {
-
-
             if (Access_take == 1)
             {
                 if (Access == 1)//操作员
@@ -996,8 +984,6 @@ namespace MesDatas
                 }
 
                 Access_take = 0;
-
-
             }
 
         }
@@ -1562,10 +1548,10 @@ namespace MesDatas
             BydMesCom.绑定工单(工单号, out 绑定结果, out MES反馈, out XMLOUT);
         }
 
-        bool loginCheck = false;
+        bool isUserVarified = false;
 
         /// <summary>
-        /// 用户登录验证
+        /// 用户MES联机登录验证
         /// </summary>
         private void VarifyUserLogin_MES(object sender, EventArgs e)
         {
@@ -1577,6 +1563,7 @@ namespace MesDatas
             bool 验证结果;
             string MES反馈;
             string XMLOUT;
+
             BydMesCom.用户验证(out 验证结果, out MES反馈, out XMLOUT);
 
             if (验证结果 == true)
@@ -1588,7 +1575,7 @@ namespace MesDatas
                     lblRunningStatus.ForeColor = G;
                     lblRunningStatus.Text = resources.GetString("onlineUser_OK");   // 联机用户验证失败
                     lblActionTips.Text = resources.GetString("scanning");           // 等待扫描条码
-                    loginCheck = true;
+                    isUserVarified = true;
                 }
                 else
                 {
@@ -1612,11 +1599,12 @@ namespace MesDatas
         NLog.Logger loggerMESBarCoode = NLog.LogManager.GetLogger("MESBarCoodeLog");
 
         /// <summary>
-        /// 条码验证
+        /// 条码上传至MES验证
+        /// 成功2002=1，失败2004=1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button9_Click(object sender, EventArgs e)
+        private void VarifyBarcode_MES(object sender, EventArgs e)
         {
             Parameter_txt[2002] = "0";
             Parameter_txt[2004] = "0";
@@ -1625,6 +1613,7 @@ namespace MesDatas
             bool 验证结果;
             string MES反馈;
             string XMLOUT; ;
+
             BarCodeVarify(产品条码, out 验证结果, out MES反馈, out XMLOUT);
 
             rtbMesLog.Clear();
@@ -1738,31 +1727,71 @@ namespace MesDatas
         private static KeyenceMcNet KeyenceMcNet;
         private bool isPlcConn = false;
 
-        private void TCP_Connect(object sender, EventArgs e)
+        private async void TCP_Connect(object sender, EventArgs e)
         {
-            try
+            /*try
             {
                 //KeyenceMcNet = new ModbusTcpNet("127.0.0.1", 503);
                 KeyenceMcNet = new KeyenceMcNet(tbx_IP.Text, Convert.ToInt16(tbx_port.Text));
                 KeyenceMcNet.ConnectClose();
                 KeyenceMcNet.SetPersistentConnection();
                 OperateResult connect = KeyenceMcNet.ConnectServer();
+
                 if (connect.IsSuccess)
                 {
                     isPlcConn = true;
-                    //MessageBox.Show("PLC连接成功");
                 }
                 else
                 {
                     isPlcConn = false;
-                    MessageBox.Show(resources.GetString("plcConn"));
+                    MessageBox.Show(resources.GetString("plcConn"));     PLC连接失败，请重启软件或重启机台！
+                }//
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }*/
+
+            try
+            {
+                KeyenceMcNet = new KeyenceMcNet(tbx_IP.Text, Convert.ToInt16(tbx_port.Text));
+                KeyenceMcNet.ConnectClose();
+                KeyenceMcNet.SetPersistentConnection();
+
+                // 使用 Task.Run 将耗时操作放在后台线程执行
+                var connectResult = await Task.Run(() => KeyenceMcNet.ConnectServer());
+
+                if (connectResult.IsSuccess)
+                {
+                    isPlcConn = true;
+                }
+                else
+                {
+                    isPlcConn = false;
+                    // 使用 Invoke 确保在 UI 线程上显示消息框
+                    await ShowMessageBoxAsync(resources.GetString("plcConn"));
                 }
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show(ex.Message);
+                // 使用 Invoke 确保在 UI 线程上显示消息框
+                await ShowMessageBoxAsync(ex.Message);
             }
+        }
+
+        private Task ShowMessageBoxAsync(string message)
+        {
+            return Task.Run(() =>
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => MessageBox.Show(message)));
+                }
+                else
+                {
+                    MessageBox.Show(message);
+                }
+            });
         }
 
 
@@ -1921,10 +1950,10 @@ namespace MesDatas
             //new Thread(() => {
             while (IsRunningplc_ReadMaxMin)
             {
-                //Task.Run(() =>
-                // {
-                GetPLCMaxMin();
-                // }).Wait();
+                Task.Run(() =>
+                 {
+                     GetPLCMaxMin();
+                 }).Wait();
                 Thread.Sleep(1500);
                 Application.DoEvents();
             }
@@ -2335,7 +2364,7 @@ namespace MesDatas
         {
             Invoke(new Action(() =>
             {
-                if (IsStart)
+                if (isBulletinConn)
                 {
                     if (faulttime != null)
                     {
@@ -2387,7 +2416,7 @@ namespace MesDatas
         {
             Invoke(new Action(() =>
             {
-                if (IsStart)
+                if (isBulletinConn)
                 {
                     if (faultsMap.Count > 0 & faultsMap != null)
                     {
@@ -2535,7 +2564,7 @@ namespace MesDatas
                 {
                     upState = "成功";
                 }
-                else if (OffLineType == 1)
+                else if (isOffLine == 1)
                 {
                     upState = "本地";
                 }
@@ -2688,7 +2717,7 @@ namespace MesDatas
             {
                 upState = "成功";
             }
-            else if (OffLineType == 1)
+            else if (isOffLine == 1)
             {
                 upState = "本地";
             }
@@ -2840,7 +2869,7 @@ namespace MesDatas
             {
                 upState = "成功";
             }
-            else if (OffLineType == 1)
+            else if (isOffLine == 1)
             {
                 upState = "本地";
             }
@@ -3418,7 +3447,7 @@ namespace MesDatas
                         }
 
                         // 条码规则验证();
-                        if (OffLineType == 1)
+                        if (isOffLine == 1)
                         {
                             lblScanBarcodeSatus.ForeColor = G;
                             lblRunningStatus.ForeColor = G;
@@ -3440,27 +3469,35 @@ namespace MesDatas
                                 绑定工单(null, null);
                             }
 
-                            Button9_Click(null, null);
+                            // MES条码验证
+                            VarifyBarcode_MES(null, null);
 
+                            // 条码校验通过
                             if (Parameter_txt[2002] == "1")
                             {
-
                                 lblRunningStatus.ForeColor = G;
-                                lblRunningStatus.Text = resources.GetString("barCode_OK");
+                                lblRunningStatus.Text = resources.GetString("barCode_OK");  // 条码校验通过
                                 lblValidationStatus.ForeColor = G;
+
                                 try
                                 {
                                     KeyenceMcNet.Write("D1003", 1);
                                 }
                                 catch (Exception ex)
-                                { LogMsg(ex.ToString()); }
+                                {
+                                    LogMsg(ex.ToString());
+                                }
+
                                 LogMsg("反馈条码验证【D1003】 = 1");
                             }
+
+                            // MES条码校验失败
                             else if (Parameter_txt[2004] == "1")
                             {
                                 lblRunningStatus.ForeColor = R;
-                                lblRunningStatus.Text = resources.GetString("barCode_NG_MES");
+                                lblRunningStatus.Text = resources.GetString("barCode_NG_MES");  // MES条码校验失败
                                 lblValidationStatus.ForeColor = R;
+
                                 try
                                 {
                                     KeyenceMcNet.Write("D1005", 1);
@@ -3469,6 +3506,7 @@ namespace MesDatas
                                 {
                                     LogMsg(ex.ToString());
                                 }
+
                                 LogMsg("反馈条码验证【D1005】 = 1");
                             }
                             Thread.Sleep(200);
@@ -3713,7 +3751,7 @@ namespace MesDatas
                     }));
 
                     // 上传数据
-                    if (OffLineType == 0)
+                    if (isOffLine == 0)
                     {
                         Invoke(new Action(() =>
                         {
@@ -3746,7 +3784,7 @@ namespace MesDatas
                         }));
                     }
                     //生产数据上传看板
-                    if (IsStart)
+                    if (isBulletinConn)
                     {
                         SendReceived();
                     }
@@ -4648,14 +4686,10 @@ namespace MesDatas
         #region --------------- 看板数据库设置 ---------------
 
         Socket socketSend;
-        private bool IsStart = false;
+        private bool isBulletinConn = false;
         private Action<string> ShowMsgAction;
         DataTable vubPartsTable;                // 易损件表
         DataTable faultsTable;                  // 故障信息表
-        //string[] boardName = new string[] { };//易损件
-        //string[] boardCode = new string[] { };
-        //string[] boardTeory = new string[] { };//理论值
-        //string[] boardPosition = new string[] { };//位置
 
         /// <summary>
         /// 加载看板界面相关参数
@@ -4976,6 +5010,21 @@ namespace MesDatas
         private System.Net.Sockets.Socket socket;
 
         /// <summary>
+        /// 客户端Socket连接服务器
+        /// </summary>
+        private void BtnConnectBulletin_Click(object sender, EventArgs e)
+        {
+            if (cbxOpenBulletin.Checked == false)
+            {
+                isBulletinConn = false;
+                lblDashboardStatus.ForeColor = B;
+                return;
+            }
+
+            Connect();
+        }
+
+        /// <summary>
         /// 连接
         /// </summary>
         /// <param name="ipAddress"></param>
@@ -4985,111 +5034,57 @@ namespace MesDatas
             Invoke(new Action(() =>
             {
                 lblDashboardStatus.ForeColor = R;
-                //  label43.Text = "看板状态：未连接";
             }));
 
             await Task.Run(() =>
-                {
-                    while (true)
-                    {
-                        try
-                        {
-                            // Internet 协议、字节流、IPv4连接
-                            socket = new Socket(
-                            AddressFamily.InterNetwork,
-                            SocketType.Stream,
-                            ProtocolType.IP);
-                            IPAddress ip = IPAddress.Parse(tbxBulletinIP.Text);
-                            IPEndPoint point = new IPEndPoint(ip, Convert.ToInt32(tbxBulletinPort.Text));
-                            socket.Connect(point);
-                            IsStart = true;
-
-                            if (IsStart)
-                            {
-                                //读取消息
-                                System.Threading.Thread thread = new System.Threading.Thread(Received);
-                                thread.IsBackground = true;
-                                thread.Start();
-
-                                //发送心跳包
-                                System.Threading.Thread thread1 = new System.Threading.Thread(Sendheartbeat);
-                                thread1.IsBackground = true;
-                                thread1.Start();
-
-                                //读取工单号等生产数据发送
-                                System.Threading.Thread thread2 = new System.Threading.Thread(SedMegin);
-                                thread2.IsBackground = true;
-                                thread2.Start();
-
-
-
-                                Invoke(new Action(() =>
-                                {
-                                    lblDashboardStatus.ForeColor = G;
-                                    //  label43.Text = "看板状态：已连接";
-                                }));
-
-                                break;
-                            }
-
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Thread.Sleep(50000);
-                            ShowMsg("Reconnection failed: " + ex.Message);
-                        }
-
-                    }
-                });
-        }
-
-        /// <summary>
-        /// 客户端Socket连接服务器
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button16_Click(object sender, EventArgs e)
-        {
-
-            if (cbxOpenBulletin.Checked == false)
             {
+                while (true)
+                {
+                    try
+                    {
+                        // Internet 协议、字节流、IPv4连接
+                        socket = new Socket(
+                        AddressFamily.InterNetwork,
+                        SocketType.Stream,
+                        ProtocolType.IP);
+                        IPAddress ip = IPAddress.Parse(tbxBulletinIP.Text);
+                        IPEndPoint point = new IPEndPoint(ip, Convert.ToInt32(tbxBulletinPort.Text));
+                        socket.Connect(point);
+                        isBulletinConn = true;
 
-                IsStart = false;
-                lblDashboardStatus.ForeColor = B;
-                // label43.Text = "看板状态：未启用";
-                return;
-            }
-            Connect();
+                        if (isBulletinConn)
+                        {
+                            //读取消息
+                            System.Threading.Thread thread = new System.Threading.Thread(Received);
+                            thread.IsBackground = true;
+                            thread.Start();
 
-            //await Task.Run(() => { 
-            //try
-            //{
-            //    //创建客户端Socket，获得远程ip和端口号
-            //    socketSend = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //    IPAddress ip = IPAddress.Parse(textBox18.Text);
-            //    IPEndPoint point = new IPEndPoint(ip, Convert.ToInt32(textBox12.Text));
-            //    socketSend.Connect(point);
-            //    ShowMsg("连接成功!");
-            //    //开启新的线程，不停的接收服务器发来的消息
-            //    Thread c_thread = new Thread(Received);
-            //    c_thread.IsBackground = true;
-            //    c_thread.Start();
-            //    //每次连接都将工位号发给服务端
-            //    Task thread = new Task(SedMegin);//读取工单号等生产数据
-            //    thread.Start();
-            //    // Send("0+"+textBox24.Text);
-            //    IsStart = true;
+                            //发送心跳包
+                            System.Threading.Thread thread1 = new System.Threading.Thread(Sendheartbeat);
+                            thread1.IsBackground = true;
+                            thread1.Start();
 
-            //    // ShowBtnState();
-            //}
-            //catch (Exception ex)
-            //{
-            //    IsStart = false;
+                            //读取工单号等生产数据发送
+                            System.Threading.Thread thread2 = new System.Threading.Thread(SedMegin);
+                            thread2.IsBackground = true;
+                            thread2.Start();
 
-            //}
-            //});
+                            Invoke(new Action(() =>
+                            {
+                                lblDashboardStatus.ForeColor = G;
+                            }));
 
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Thread.Sleep(50000);
+                        ShowMsg("Reconnection failed: " + ex.Message);
+                    }
+
+                }
+            });
         }
 
         /// <summary>
@@ -5097,7 +5092,7 @@ namespace MesDatas
         /// </summary>
         private void Received()
         {
-            while (IsStart)
+            while (isBulletinConn)
             {
                 try
                 {
@@ -5116,7 +5111,7 @@ namespace MesDatas
                 }
                 catch (Exception ex)
                 {
-                    IsStart = false;
+                    isBulletinConn = false;
                     Console.WriteLine(ex.Message);
                     socket.Close();
                     Connect();
@@ -5132,7 +5127,7 @@ namespace MesDatas
             await Task.Run(() =>
             {
                 // 定时发送心跳包并检测连接状态
-                while (IsStart)
+                while (isBulletinConn)
                 {
                     try
                     {
@@ -5144,7 +5139,7 @@ namespace MesDatas
                     }
                     catch (Exception ex)
                     {
-                        IsStart = false;
+                        isBulletinConn = false;
                         Console.WriteLine(ex.Message);
                         socket.Close();
 
@@ -5363,7 +5358,7 @@ namespace MesDatas
                         }
                         catch (Exception ex)
                         {
-                            IsStart = false;
+                            isBulletinConn = false;
                             // label43.ForeColor = R;
                             // label43.Text = "看板状态：未连接";
                             ShowMsg("发送失败：" + ex.Message);
@@ -5432,7 +5427,7 @@ namespace MesDatas
                 case "1":
                     try
                     {
-                        if (OffLineType == 0 && loginCheck == true)
+                        if (isOffLine == 0 && isUserVarified == true)
                         {
                             //MessageBox.Show("确认接收生产工单");
                             if (sedbool == true)
@@ -6403,6 +6398,5 @@ namespace MesDatas
 
             }
         }
-
     }
 }

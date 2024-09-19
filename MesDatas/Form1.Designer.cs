@@ -272,9 +272,9 @@ namespace MesDatas
             this.dataGridViewDynamic4 = new MesDatasCore.DataGridViewDynamic();
             this.panel25 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label52 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label54 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.label60 = new System.Windows.Forms.Label();
@@ -316,7 +316,7 @@ namespace MesDatas
             this.textBox30 = new System.Windows.Forms.TextBox();
             this.label83 = new System.Windows.Forms.Label();
             this.cbxOpenBulletin = new System.Windows.Forms.CheckBox();
-            this.button16 = new System.Windows.Forms.Button();
+            this.btnConnDashBoard = new System.Windows.Forms.Button();
             this.label40 = new System.Windows.Forms.Label();
             this.button17 = new System.Windows.Forms.Button();
             this.label42 = new System.Windows.Forms.Label();
@@ -2090,18 +2090,13 @@ namespace MesDatas
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.label52);
             this.panel2.Controls.Add(this.groupBox11);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
-            // label52
-            // 
-            resources.ApplyResources(this.label52, "label52");
-            this.label52.Name = "label52";
-            // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.label52);
             this.groupBox11.Controls.Add(this.label54);
             resources.ApplyResources(this.groupBox11, "groupBox11");
             this.groupBox11.Name = "groupBox11";
@@ -2112,6 +2107,11 @@ namespace MesDatas
             resources.ApplyResources(this.label54, "label54");
             this.label54.ForeColor = System.Drawing.Color.SteelBlue;
             this.label54.Name = "label54";
+            // 
+            // label52
+            // 
+            resources.ApplyResources(this.label52, "label52");
+            this.label52.Name = "label52";
             // 
             // panel7
             // 
@@ -2306,7 +2306,7 @@ namespace MesDatas
             this.groupBox13.Controls.Add(this.groupBox25);
             this.groupBox13.Controls.Add(this.label83);
             this.groupBox13.Controls.Add(this.cbxOpenBulletin);
-            this.groupBox13.Controls.Add(this.button16);
+            this.groupBox13.Controls.Add(this.btnConnDashBoard);
             this.groupBox13.Controls.Add(this.label40);
             this.groupBox13.Controls.Add(this.button17);
             this.groupBox13.Controls.Add(this.label42);
@@ -2406,12 +2406,12 @@ namespace MesDatas
             this.cbxOpenBulletin.Name = "cbxOpenBulletin";
             this.cbxOpenBulletin.UseVisualStyleBackColor = true;
             // 
-            // button16
+            // btnConnDashBoard
             // 
-            resources.ApplyResources(this.button16, "button16");
-            this.button16.Name = "button16";
-            this.button16.UseVisualStyleBackColor = true;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
+            resources.ApplyResources(this.btnConnDashBoard, "btnConnDashBoard");
+            this.btnConnDashBoard.Name = "btnConnDashBoard";
+            this.btnConnDashBoard.UseVisualStyleBackColor = true;
+            this.btnConnDashBoard.Click += new System.EventHandler(this.BtnConnectBulletin_Click);
             // 
             // label40
             // 
@@ -2764,7 +2764,7 @@ namespace MesDatas
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.GroupBox groupBox13;
-        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button btnConnDashBoard;
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.TextBox tbxBulletinPort;
